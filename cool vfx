@@ -1,0 +1,371 @@
+        local v22653 = {};
+        v22653.__index = v22653;
+        local v22654 = require(game.ReplicatedStorage.library);
+        local l_PlayAttachment_3 = v22654.PlayAttachment;
+        local l_Maid_17 = v22654.Maid;
+        local l_PlayTween_3 = v22654.PlayTween;
+        local _ = v22654.CamShake;
+        local _ = v22654.PlayFlipBook;
+        local l_dtwait_3 = v22654.dtwait;
+        local _ = v22654.EFP;
+        local l_PlayMesh_3 = v22654.PlayMesh;
+        local _ = v22654.Impact;
+        local _ = v22654.GlassLight;
+        local _ = v22654.RaiseZIndex;
+        local l_Able_3 = v22654.Able;
+        local l_LifeScale_3 = v22654.LifeScale;
+        local l_QuickFX_3 = v22654.QuickFX;
+        local _ = v22654.QuickWeld;
+        local _ = v22654.Yield;
+        local _ = v22654.ProcessPart;
+        local _ = v22654.WeldObject;
+        local _ = v22654.Bezier;
+        local _ = Random.new();
+        local l_vfx_0 = game.ReplicatedStorage.Resources.UFW.vfx;
+        local v22676 = setmetatable({}, v22653);
+        v22676._maid = l_Maid_17.new();
+        local _ = {};
+        local v22678 = false;
+        local l_v22676_0 = v22676 --[[ copy: 27 -> 207 ]];
+        do
+            local l_v22678_0 = v22678;
+            local function _() --[[ Line: 45933 ]] --[[ Name: Clean ]]
+                if not l_v22678_0 then
+                    l_v22678_0 = true;
+                    l_v22676_0._maid:doCleaning();
+                end;
+            end;
+            task.delay(10, function() --[[ Line: 45940 ]]
+                if not l_v22678_0 then
+                    l_v22678_0 = true;
+                    l_v22676_0._maid:doCleaning();
+                end;
+            end);
+            local l_PrimaryPart_98 = game.Players.LocalPlayer.Character.PrimaryPart;
+            local l_Thrown_41 = workspace.Thrown;
+            local l_UFW_0 = game.ReplicatedStorage.Resources.UFW;
+            local l_TweenService_56 = game:GetService("TweenService");
+            local l_l_vfx_0_0 = l_vfx_0 --[[ copy: 26 -> 208 ]];
+            local l_l_dtwait_3_0 = l_dtwait_3 --[[ copy: 11 -> 209 ]];
+            local l_l_TweenService_56_0 = l_TweenService_56 --[[ copy: 35 -> 210 ]];
+            local l_l_PrimaryPart_98_0 = l_PrimaryPart_98 --[[ copy: 32 -> 211 ]];
+            local l_l_QuickFX_3_0 = l_QuickFX_3 --[[ copy: 19 -> 212 ]];
+            local l_l_Able_3_0 = l_Able_3 --[[ copy: 17 -> 213 ]];
+            local l_l_PlayMesh_3_0 = l_PlayMesh_3 --[[ copy: 13 -> 214 ]];
+            local l_l_Thrown_41_0 = l_Thrown_41 --[[ copy: 33 -> 215 ]];
+            local l_l_UFW_0_0 = l_UFW_0 --[[ copy: 34 -> 216 ]];
+            local l_l_PlayAttachment_3_0 = l_PlayAttachment_3 --[[ copy: 6 -> 217 ]];
+            local l_l_LifeScale_3_0 = l_LifeScale_3 --[[ copy: 18 -> 218 ]];
+            local l_l_PlayTween_3_0 = l_PlayTween_3 --[[ copy: 8 -> 219 ]];
+            spawn(function() --[[ Line: 45952 ]]
+                (function() --[[ Line: 45953 ]] --[[ Name: FinalPunch ]]
+                    local l_PunchFX_0 = l_l_vfx_0_0.PunchFX;
+                    local _ = l_Character_4;
+                    local v22700 = {};
+                    task.spawn(function() --[[ Line: 45958 ]]
+                        local v22701 = tick();
+                        while tick() - v22701 < 5 do
+                            for _, v22703 in pairs(v22700) do
+                                if v22703.Parent then
+                                    for _, v22705 in pairs(v22700) do
+                                        v22705.OffsetStudsU = v22705.OffsetStudsU + 0.3;
+                                        v22705.OffsetStudsV = v22705.OffsetStudsV + 0.3;
+                                    end;
+                                end;
+                            end;
+                            l_l_dtwait_3_0(0.01);
+                        end;
+                    end);
+                    local function v22710(v22706, v22707) --[[ Line: 45974 ]] --[[ Name: PlayTextures ]]
+                        for _, v22709 in pairs(v22706:GetDescendants()) do
+                            if v22709:IsA("Texture") then
+                                table.insert(v22700, v22709);
+                                l_l_TweenService_56_0:Create(v22709, TweenInfo.new(v22707, Enum.EasingStyle.Sine), {
+                                    Transparency = 1
+                                }):Play();
+                            end;
+                        end;
+                    end;
+                    local l_l_l_PrimaryPart_98_0_0 = l_l_PrimaryPart_98_0;
+                    local function v22718() --[[ Line: 45987 ]] --[[ Name: Start ]]
+                        local _ = l_l_l_PrimaryPart_98_0_0.CFrame * CFrame.new(0, -l_l_l_PrimaryPart_98_0_0.Size.Y * 1.5, 0);
+                        local v22713 = l_l_QuickFX_3_0({
+                            FX = l_PunchFX_0.Charge, 
+                            Maid = l_v22676_0._maid, 
+                            Anchor = l_l_l_PrimaryPart_98_0_0.CFrame * CFrame.new(0, 0, -3)
+                        });
+                        v22713:ScaleTo(3);
+                        l_l_Able_3_0({
+                            FX = v22713, 
+                            On = true
+                        });
+                        for _, v22715 in pairs(v22713:GetDescendants()) do
+                            if v22715:IsA("ParticleEmitter") then
+                                v22715.Rate = v22715.Rate * 5;
+                            end;
+                        end;
+                        game.Debris:AddItem(v22713, 0.15);
+                        local v22716 = l_l_QuickFX_3_0({
+                            FX = l_PunchFX_0.EnabledPunch, 
+                            Maid = l_v22676_0._maid, 
+                            Anchor = l_l_l_PrimaryPart_98_0_0.CFrame * CFrame.new(0, 0, -60)
+                        });
+                        v22716:ScaleTo(4);
+                        l_l_Able_3_0({
+                            FX = v22716, 
+                            On = true
+                        });
+                        task.delay(0.25, function() --[[ Line: 46013 ]]
+                            l_l_Able_3_0({
+                                FX = v22716, 
+                                On = false
+                            });
+                        end);
+                        local v22717 = l_PunchFX_0.Flash:Clone();
+                        v22717:ScaleTo(4);
+                        l_l_PlayMesh_3_0({
+                            Model = v22717, 
+                            Anchor = l_l_l_PrimaryPart_98_0_0.CFrame * CFrame.new(0, 0, 40) * CFrame.Angles(0, 0, 0), 
+                            Info = TweenInfo.new(0.5, Enum.EasingStyle.Exponential)
+                        });
+                        v22710(v22717, 0.5);
+                        game.Debris:AddItem(v22717, 0.15);
+                    end;
+                    local function v22753() --[[ Line: 46027 ]] --[[ Name: Main1 ]]
+                        local v22719 = l_v22676_0._maid:give(l_PunchFX_0.Shard:Clone());
+                        v22719:ScaleTo(2);
+                        l_l_PlayMesh_3_0({
+                            Model = v22719, 
+                            T = 0, 
+                            EndT = 0, 
+                            Anchor = l_l_l_PrimaryPart_98_0_0.CFrame * CFrame.new(0, 0, -66) * CFrame.Angles(0, 1.5707963267948966, 0), 
+                            Info = TweenInfo.new(0.1, Enum.EasingStyle.Exponential)
+                        });
+                        local v22720 = l_l_l_PrimaryPart_98_0_0.CFrame * CFrame.new(0, 0, -10) * CFrame.Angles(1.5707963267948966, 0, 0);
+                        local v22721 = l_v22676_0._maid:give(l_PunchFX_0.StartThing:Clone());
+                        v22721:PivotTo(v22720);
+                        v22721.Parent = l_l_Thrown_41_0;
+                        game.Debris:AddItem(v22721, 2);
+                        local v22722 = l_v22676_0._maid:give(l_PunchFX_0.EndThing:Clone());
+                        v22722:PivotTo(v22720);
+                        v22722.Parent = l_l_Thrown_41_0;
+                        task.spawn(function() --[[ Line: 46045 ]]
+                            l_v22676_0.Impact1 = l_v22676_0._maid:give(l_l_UFW_0_0:FindFirstChild("1"):Clone());
+                            l_v22676_0.Impact1.Parent = game.Lighting;
+                            l_l_dtwait_3_0(0.07);
+                            l_v22676_0.Impact1:Destroy();
+                            l_v22676_0.Impact2 = l_v22676_0._maid:give(l_l_UFW_0_0:FindFirstChild("2"):Clone());
+                            l_v22676_0.Impact2.Parent = game.Lighting;
+                            l_l_dtwait_3_0(0.07);
+                            l_v22676_0.Impact2:Destroy();
+                        end);
+                        for _, v22724 in pairs(v22721:GetChildren()) do
+                            local l_v22722_FirstChild_0 = v22722:FindFirstChild(v22724.Name);
+                            if l_v22722_FirstChild_0 then
+                                l_l_TweenService_56_0:Create(v22724, TweenInfo.new(0.1, Enum.EasingStyle.Sine), {
+                                    Size = l_v22722_FirstChild_0.Size, 
+                                    CFrame = l_v22722_FirstChild_0.CFrame
+                                }):Play();
+                            end;
+                        end;
+                        game.Debris:AddItem(v22721, 0.05);
+                        local v22726 = l_l_QuickFX_3_0({
+                            FX = l_PunchFX_0.groundsmoke, 
+                            Anchor = l_l_l_PrimaryPart_98_0_0.CFrame * CFrame.new(0, -l_l_l_PrimaryPart_98_0_0.Size.Y * 1.5, 0) * CFrame.Angles(0, 3.141592653589793, 0), 
+                            Maid = l_v22676_0._maid
+                        });
+                        l_l_PlayAttachment_3_0(v22726);
+                        v22726:ScaleTo(2);
+                        l_l_LifeScale_3_0({
+                            FX = v22726, 
+                            Scale = 2
+                        });
+                        l_l_LifeScale_3_0({
+                            FX = v22726.PrimaryPart.emitLeft, 
+                            Scale = 0.2
+                        });
+                        l_l_LifeScale_3_0({
+                            FX = v22726.PrimaryPart.emitRight, 
+                            Scale = 0.2
+                        });
+                        task.spawn(function() --[[ Line: 46076 ]]
+                            for v22727 = 1, 3 do
+                                local v22728 = l_l_QuickFX_3_0({
+                                    FX = l_PunchFX_0.Wind, 
+                                    Anchor = l_l_l_PrimaryPart_98_0_0.CFrame * CFrame.new(0, -l_l_l_PrimaryPart_98_0_0.Size.Y * 1.5, 10) * CFrame.Angles(0, 0, 0), 
+                                    Maid = l_v22676_0._maid
+                                });
+                                v22728:ScaleTo(v22727 * 2);
+                                l_l_LifeScale_3_0({
+                                    FX = v22728, 
+                                    Scale = 0.5 * (v22727 * 0.8)
+                                });
+                                l_l_PlayAttachment_3_0(v22728);
+                                l_l_dtwait_3_0(0.05);
+                            end;
+                        end);
+                        local v22729 = l_v22676_0._maid:give(l_PunchFX_0.ohyea:Clone());
+                        v22729:ScaleTo(8);
+                        l_l_PlayMesh_3_0({
+                            Model = v22729, 
+                            T = 0, 
+                            Anchor = l_l_l_PrimaryPart_98_0_0.CFrame * CFrame.new(0, 0, -20) * CFrame.Angles(0, -1.5707963267948966, 0), 
+                            Info = TweenInfo.new(3, Enum.EasingStyle.Exponential)
+                        });
+                        local v22730 = l_PunchFX_0.Next:Clone();
+                        v22730:ScaleTo(4);
+                        l_l_PlayMesh_3_0({
+                            Model = v22730, 
+                            T = 0, 
+                            Anchor = l_l_l_PrimaryPart_98_0_0.CFrame * CFrame.new(0, 0, -20) * CFrame.Angles(0, 1.5707963267948966, 0), 
+                            Info = TweenInfo.new(4, Enum.EasingStyle.Exponential)
+                        });
+                        local v22731 = l_PunchFX_0.BallThing:Clone();
+                        v22731:ScaleTo(4);
+                        l_l_PlayMesh_3_0({
+                            Model = v22731, 
+                            Anchor = l_l_l_PrimaryPart_98_0_0.CFrame * CFrame.new(0, 0, -20) * CFrame.Angles(0, 0, 0), 
+                            Info = TweenInfo.new(3, Enum.EasingStyle.Exponential)
+                        });
+                        v22710(v22731, 1);
+                        task.spawn(function() --[[ Line: 46101 ]]
+                            for v22732 = 1, 3 do
+                                local v22733 = l_PunchFX_0.Test:Clone();
+                                v22733:ScaleTo(8 - v22732 * 0.7);
+                                l_l_PlayMesh_3_0({
+                                    Model = v22733, 
+                                    T = 0.3, 
+                                    Anchor = l_l_l_PrimaryPart_98_0_0.CFrame * CFrame.new(0, 0, -10 * v22732 * 2) * CFrame.Angles(-1.5707963267948966, -1.5707963267948966, 0), 
+                                    Info = TweenInfo.new(0.4 * v22732, Enum.EasingStyle.Exponential)
+                                });
+                                l_l_dtwait_3_0(0.05);
+                            end;
+                        end);
+                        local v22734 = l_l_QuickFX_3_0({
+                            FX = l_PunchFX_0.PunchBig, 
+                            Maid = l_v22676_0._maid, 
+                            Anchor = l_l_l_PrimaryPart_98_0_0.CFrame * CFrame.new(0, 0, -100)
+                        });
+                        v22734:ScaleTo(1.4);
+                        l_l_LifeScale_3_0({
+                            FX = v22734, 
+                            Scale = 0.4
+                        });
+                        l_l_PlayAttachment_3_0(v22734);
+                        local v22735 = l_l_QuickFX_3_0({
+                            FX = l_PunchFX_0.ParticlesEnd, 
+                            Anchor = l_l_l_PrimaryPart_98_0_0.CFrame * CFrame.new(0, 5, 30), 
+                            Maid = l_v22676_0._maid
+                        });
+                        v22735:ScaleTo(2);
+                        l_l_LifeScale_3_0({
+                            FX = v22735, 
+                            Scale = 2
+                        });
+                        l_l_PlayAttachment_3_0(v22735);
+                        local v22736 = l_l_QuickFX_3_0({
+                            FX = l_PunchFX_0.Emit, 
+                            Anchor = l_l_l_PrimaryPart_98_0_0.CFrame * CFrame.new(0, 0, -100), 
+                            Maid = l_v22676_0._maid
+                        });
+                        v22736:ScaleTo(1.4);
+                        l_l_LifeScale_3_0({
+                            FX = v22736, 
+                            Scale = 2
+                        });
+                        for _, v22738 in pairs(v22736:GetDescendants()) do
+                            if v22738:IsA("ParticleEmitter") then
+                                v22738:SetAttribute("EmitCount", v22738:GetAttribute("EmitCount") * 0.5);
+                            end;
+                        end;
+                        l_l_PlayAttachment_3_0(v22736);
+                        local v22739 = l_l_QuickFX_3_0({
+                            FX = l_PunchFX_0.Beam, 
+                            Maid = l_v22676_0._maid, 
+                            Anchor = l_l_l_PrimaryPart_98_0_0.CFrame * CFrame.new(0, 0, -240)
+                        });
+                        v22739:ScaleTo(1.4);
+                        for _, v22741 in pairs(v22739:GetDescendants()) do
+                            if v22741.Name:find("Far") then
+                                local l_CFrame_95 = v22741.CFrame;
+                                local v22743, v22744, v22745 = l_CFrame_95:ToOrientation();
+                                v22741.CFrame = CFrame.new(0, 0, -v22741.CFrame.Position.Z) * CFrame.Angles(v22743, v22744, v22745);
+                                l_l_TweenService_56_0:Create(v22741, TweenInfo.new(0.4, Enum.EasingStyle.Sine), {
+                                    CFrame = l_CFrame_95
+                                }):Play();
+                            elseif v22741:IsA("Beam") then
+                                l_l_TweenService_56_0:Create(v22741, TweenInfo.new(3, Enum.EasingStyle.Sine), {
+                                    TextureSpeed = 0
+                                }):Play();
+                                l_l_PlayTween_3_0(v22741, {
+                                    Time = 2, 
+                                    EasingStyle = "Sine", 
+                                    Goal = {
+                                        Transparency = NumberSequence.new({
+                                            NumberSequenceKeypoint.new(0, 1), 
+                                            NumberSequenceKeypoint.new(1, 1)
+                                        })
+                                    }
+                                });
+                                game.Debris:AddItem(v22741, 2);
+                            end;
+                        end;
+                        local v22746 = l_l_QuickFX_3_0({
+                            FX = l_PunchFX_0.NewBeams, 
+                            Maid = l_v22676_0._maid, 
+                            Anchor = l_l_l_PrimaryPart_98_0_0.CFrame * CFrame.new(0, 0, -44) * CFrame.Angles(0, 0, -0.5235987755982988)
+                        });
+                        v22746:ScaleTo(4);
+                        l_l_dtwait_3_0(0.5);
+                        for _, v22748 in pairs(v22746:GetDescendants()) do
+                            if v22748.Name:find("Far") then
+                                local l_CFrame_96 = v22748.CFrame;
+                                local v22750, v22751, v22752 = l_CFrame_96:ToOrientation();
+                                v22748.CFrame = CFrame.new(0, 0, -v22748.CFrame.Position.Z) * CFrame.Angles(v22750, v22751, v22752);
+                                print(v22748.CFrame.Position);
+                                l_l_TweenService_56_0:Create(v22748, TweenInfo.new(0.4, Enum.EasingStyle.Sine), {
+                                    CFrame = l_CFrame_96
+                                }):Play();
+                            elseif v22748:IsA("Beam") then
+                                l_l_TweenService_56_0:Create(v22748, TweenInfo.new(3, Enum.EasingStyle.Sine), {
+                                    TextureSpeed = 0
+                                }):Play();
+                                l_l_PlayTween_3_0(v22748, {
+                                    Time = 2, 
+                                    EasingStyle = "Sine", 
+                                    Goal = {
+                                        Transparency = NumberSequence.new({
+                                            NumberSequenceKeypoint.new(0, 1), 
+                                            NumberSequenceKeypoint.new(1, 1)
+                                        })
+                                    }
+                                });
+                                game.Debris:AddItem(v22748, 2);
+                            end;
+                        end;
+                        l_l_dtwait_3_0(1);
+                    end;
+                    v22718();
+                    l_l_dtwait_3_0(0.15);
+                    v22753();
+                end)();
+            end);
+            local v22754 = game.ReplicatedStorage.Resources.UFW.RB:Clone();
+            v22754:SetPrimaryPartCFrame(l_PrimaryPart_98.CFrame * CFrame.new(0, 0, -4));
+            v22754.Parent = l_Thrown_41;
+            v22754:ScaleTo(7);
+            local v22755 = v22754.AnimationController:LoadAnimation(l_UFW_0.lastthing);
+            v22755:Play();
+            v22755.TimePosition = 1.4;
+            game.Debris:AddItem(v22754, 3);
+            local l_v22754_0 = v22754 --[[ copy: 36 -> 220 ]];
+            task.delay(1, function() --[[ Line: 46204 ]]
+                for _, v22758 in pairs(l_v22754_0:GetChildren()) do
+                    if v22758:IsA("BasePart") then
+                        l_l_TweenService_56_0:Create(v22758, TweenInfo.new(0.5, Enum.EasingStyle.Sine), {
+                            Transparency = 1
+                        }):Play();
+                    end;
+                end;
+            end);
+        end;
