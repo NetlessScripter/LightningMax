@@ -1,0 +1,144 @@
+-- don’t edit unless you know what your doing
+local P = game:GetService("Players")
+local R = game:GetService("ReplicatedStorage")
+local RS = game:GetService("RunService")
+if not RS:IsClient() then return end
+local plr = P.LocalPlayer
+local c = plr.Character or plr.CharacterAdded:Wait()
+local h = c:WaitForChild("HumanoidRootPart")
+local s = 0.090 -- scale value (0.090 = close to original size)
+local o = R.Emotes.VFX.VfxMods.LastWill.vfx.Hit1Fx -- change this to the model you wanna rip
+
+local function sv(v)
+	if typeof(v) == "Color3" then
+		return string.format("Color3.new(%f,%f,%f)", v.R,v.G,v.B)
+	elseif typeof(v) == "Vector3" then
+		return string.format("Vector3.new(%f,%f,%f)", v.X,v.Y,v.Z)
+	elseif typeof(v) == "Vector2" then
+		return string.format("Vector2.new(%f,%f)", v.X,v.Y)
+	elseif typeof(v) == "CFrame" then
+		local t = {v:GetComponents()}
+		return "CFrame.new("..table.concat(t,",")..")"
+	elseif typeof(v) == "BrickColor" then
+		return string.format("BrickColor.new(%q)", v.Name)
+	elseif typeof(v) == "EnumItem" then
+		return string.format("Enum.%s.%s", tostring(v.EnumType):gsub("Enum.",""), v.Name)
+	elseif typeof(v) == "ColorSequence" then
+		local k = {}
+		for _,x in ipairs(v.Keypoints) do
+			table.insert(k,string.format("ColorSequenceKeypoint.new(%f,Color3.new(%f,%f,%f))",x.Time,x.Value.R,x.Value.G,x.Value.B))
+		end
+		return "ColorSequence.new({"..table.concat(k,",").."})"
+	elseif typeof(v) == "NumberSequence" then
+		local k = {}
+		for _,x in ipairs(v.Keypoints) do
+			table.insert(k,string.format("NumberSequenceKeypoint.new(%f,%f,%f)",x.Time,x.Value,x.Envelope or 0))
+		end
+		return "NumberSequence.new({"..table.concat(k,",").."})"
+	elseif typeof(v) == "NumberRange" then
+		return string.format("NumberRange.new(%f,%f)",v.Min,v.Max)
+	elseif type(v)=="string" then
+		return string.format("%q",v)
+	elseif type(v)=="boolean" or type(v)=="number" then
+		return tostring(v)
+	else
+		return "nil"
+	end
+end
+
+local function si(x,n)
+	local t = {}
+	table.insert(t,string.format("local %s = Instance.new(%q)",n,x.ClassName))
+	table.insert(t,string.format("%s.Name = %q",n,x.Name))
+	local ps = {"Size","Color","Transparency","Reflectance","Material","CanCollide","Shape","BrickColor","CFrame","Orientation","Position","TextureID","MeshId","MeshType","Texture","CastShadow","ZIndex","Face","Anchored","Rate","Lifetime","Speed","LightEmission","LightInfluence","Rotation","RotSpeed","SpreadAngle","Texture","SizeSequence","TransparencySequence","ColorSequence","EmissionDirection","Enabled","LockedToPart","TimeScale","Color","TextureLength","TextureMode","TextureSpeed","Transparency","Brightness","Length","FaceCamera","StudsPerTileU","StudsPerTileV","OffsetStudsU","OffsetStudsV","BackgroundColor3","BackgroundTransparency","Text","Font","TextColor3","TextScaled","TextSize","TextStrokeColor3","TextStrokeTransparency","TextTransparency","Image","ImageColor3","ImageTransparency"}
+	for _,p in ipairs(ps) do
+		pcall(function()
+			local v = x[p]
+			if v ~= nil then
+				table.insert(t,string.format("%s.%s=%s",n,p,sv(v)))
+			end
+		end)
+	end
+	if x:IsA("BasePart") then
+		table.insert(t,string.format("%s.Anchored=true",n))
+	end
+	for _,ch in ipairs(x:GetChildren()) do
+		local cn = n.."_"..ch.Name:gsub("%W","")
+		for _,v in ipairs(si(ch,cn)) do
+			table.insert(t,v)
+		end
+		table.insert(t,string.format("%s.Parent=%s",cn,n))
+	end
+	return t
+end
+
+local t="r"
+local cd=si(o,t)
+table.insert(cd,string.format("%s.Parent=workspace",t))
+table.insert(cd,[[
+local P=game:GetService("Players")
+local pl=P.LocalPlayer
+local h=pl.Character and pl.Character:FindFirstChild("HumanoidRootPart")
+local s=]]..s..[[
+
+if h then
+	local cf=h.CFrame*CFrame.new(0,0,-5)
+	local function sp(e)
+		if not e:IsA("ParticleEmitter") then return end
+		local ps={"Size","Speed","Lifetime","Rotation","RotSpeed","SpreadAngle","VelocitySpread"}
+		for _,pr in ipairs(ps) do
+			local ok,v=pcall(function() return e[pr] end)
+			if ok and v~=nil then
+				if typeof(v)=="NumberRange" then
+					e[pr]=NumberRange.new(v.Min*s,v.Max*s)
+				elseif typeof(v)=="NumberSequence" then
+					local ks={}
+					for _,k in ipairs(v.Keypoints) do
+						table.insert(ks,NumberSequenceKeypoint.new(k.Time,k.Value*s,k.Envelope))
+					end
+					e[pr]=NumberSequence.new(ks)
+				elseif typeof(v)=="Vector2" then
+					e[pr]=Vector2.new(v.X*s,v.Y*s)
+				elseif typeof(v)=="Vector3" then
+					e[pr]=Vector3.new(v.X*s,v.Y*s,v.Z*s)
+				elseif type(v)=="number" then
+					e[pr]=v*s
+				end
+			end
+		end
+		e.Enabled=true
+		e:Emit(15)
+	end
+	if ]]..t..[[:IsA("Model") then
+		]]..t..[[:PivotTo(cf)
+		for _,v in ipairs(]]..t..[[:GetDescendants()) do
+			if v:IsA("BasePart") then
+				v.Anchored=true
+				v.Size=v.Size*s
+			elseif v:IsA("ParticleEmitter") then
+				sp(v)
+			elseif v:IsA("Trail") and v.Lifetime then
+				v.Lifetime=v.Lifetime*s
+			elseif v:IsA("Attachment") then
+				for _,pe in ipairs(v:GetChildren()) do
+					if pe:IsA("ParticleEmitter") then
+						sp(pe)
+					end
+				end
+			end
+		end
+	elseif ]]..t..[[:IsA("BasePart") then
+		]]..t..[[.CFrame=cf
+		]]..t..[[.Anchored=true
+		]]..t..[[.Size=]]..t..[[.Size*s
+		for _,v in ipairs(]]..t..[[:GetChildren()) do
+			if v:IsA("ParticleEmitter") then
+				sp(v)
+			end
+		end
+	end
+end
+]])
+table.insert(cd,string.format("return %s",t))
+local txt=table.concat(cd,"\n")
+setclipboard(txt)
